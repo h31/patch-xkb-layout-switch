@@ -16,7 +16,8 @@ jobs:
           command: |
             apt update
             apt upgrade
-            apt install --yes lsb-release sudo wget xserver-xorg-core-hwe-16.04
+            apt install --yes lsb-release sudo wget
+            sed -i '$ d' ~/patch-xkb-layout-switch/apt/patch-xkb-layout-switch.sh
 
       - run:
           command: ./patch-xkb-layout-switch.sh
