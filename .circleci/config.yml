@@ -12,8 +12,8 @@ jobs:
 
       - checkout
 
-      - run: sudo apt update
+      - run: apt update
 
-      - run: sudo apt upgrade
+      - run: apt upgrade
 
       - run: apt/patch-xkb-layout-switch.sh
