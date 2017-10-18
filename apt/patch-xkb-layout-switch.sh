@@ -36,6 +36,7 @@ set -eu
 
 # Configuration
 dist_desc=`lsb_release --short --description | sed 's/\s/_/g'`
+codename=`lsb_release --codename --short`
 config_path="${dist_desc}.conf"
 stat "$config_path" >/dev/null || exit 1
 
@@ -50,27 +51,23 @@ sudo sed -i.orig 's/^#\s*deb-src/deb-src/g' /etc/apt/sources.list
 
 sudo apt-mark unhold $pkg_name
 sudo apt-get update
-sudo apt-get --yes upgrade
 
 # Get source code and dependencies
-sudo apt-get --yes install devscripts
+sudo apt-get --yes install devscripts libdistro-info-perl
 apt-get source $pkg_name
 sudo apt-get --yes build-dep $pkg_name
 sources_dir=`ls -d */`
 
 # Download and apply patch
 wget -O "$patch_file" "$patch_url"
-patch "${sources_dir}/${target_file_relpath}" < "$patch_file"
 
 # Compile sources and build debs
 pushd "$sources_dir"/
+QUILT_PATCHES="debian/patches" quilt import "../$patch_file"
+dch -D "$codename" "Keyboard layout fix"
 debuild -us -uc
 popd
 
 # Install patched package
 deb_name=`ls $pkg_name*.deb | grep -v dbg`
 sudo dpkg -i "./$deb_name"
-
-# Prevent package updates
-sudo apt-mark hold $pkg_name
-echo -e "To unhold the package run:\nsudo apt-mark unhold $pkg_name"
