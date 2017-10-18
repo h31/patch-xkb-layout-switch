@@ -16,7 +16,7 @@ jobs:
           command: |
             apt update
             apt upgrade
-            apt install --yes lsb-release
+            apt install --yes lsb-release sudo
 
       - run:
           command: ./patch-xkb-layout-switch.sh
