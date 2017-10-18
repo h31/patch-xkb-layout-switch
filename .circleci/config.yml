@@ -22,3 +22,8 @@ jobs:
       - run:
           command: ./patch-xkb-layout-switch.sh
           working_directory: ~/patch-xkb-layout-switch/apt
+
+      - run: cp ~/patch-xkb-layout-switch/apt/xorg-server/xserver-xorg-core-hwe-16.04_* ~/xserver-xorg-core-hwe-16.04.deb
+
+      - store_artifacts:
+          path: ~/xserver-xorg-core-hwe-16.04.deb
