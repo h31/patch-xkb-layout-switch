@@ -13,11 +13,11 @@ jobs:
       - checkout
 
       - run:
-        command: |
-          apt upgrade
-          apt install --yes lsb-release
-          apt update
+          command: |
+            apt upgrade
+            apt install --yes lsb-release
+            apt update
 
       - run:
-        command: ./patch-xkb-layout-switch.sh
-        working_directory: ~/patch-xkb-layout-switch/apt
+          command: ./patch-xkb-layout-switch.sh
+          working_directory: ~/patch-xkb-layout-switch/apt
