@@ -60,7 +60,7 @@ sources_dir=`ls -d */`
 
 # Download and apply patch
 wget -O "$patch_file" "$patch_url"
-
+#
 # Compile sources and build debs
 pushd "$sources_dir"/
 QUILT_PATCHES="debian/patches" quilt import "../$patch_file"
